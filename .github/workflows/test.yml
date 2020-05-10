@@ -1,4 +1,4 @@
-name: pyidr
+name: test
 
 on: [push, pull_request]
 

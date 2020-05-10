@@ -27,6 +27,7 @@ jobs:
 
     - name: Install dependencies
       run: |
+        export RPY2_CFFI_MODE=ABI
         source "$HOME/.poetry/env"
         poetry config virtualenvs.in-project true
         poetry install
@@ -38,7 +39,7 @@ jobs:
         poetry run prospector .
 
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     strategy:
       matrix:
         python-version: [3.7]
@@ -70,6 +71,8 @@ jobs:
         source "$HOME/.poetry/env"
         poetry config virtualenvs.in-project true
         poetry install
+        #Fix for wrong R version.
+        poetry run pip install rpy2==3.2.0
 
 
     - name: Run checks

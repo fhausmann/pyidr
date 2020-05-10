@@ -6,8 +6,7 @@ from scipy.stats import norm
 
 
 def pseudo_mix(data: np.ndarray, mean: float, sigma: float, prob: float,
-               **kwargs) -> np.ndarray:
-    # pylint: disable=unused-argument
+               **unused_kwargs) -> np.ndarray:
     """Compute the pseudo values of a mixture model from the empirical CDF.
 
     Args:

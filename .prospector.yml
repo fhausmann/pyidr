@@ -1,0 +1,19 @@
+ignore-patterns:
+  - (^|/)\..+
+
+mccabe:
+  options:
+    max-complexity: 10
+
+pep8:
+  options:
+    max-line-length: 100
+    single-line-if-stmt: n
+
+pep257:
+  run: false
+
+mypy:
+  run: true
+  options:
+    ignore-missing-imports: true

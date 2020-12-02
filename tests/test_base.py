@@ -46,6 +46,17 @@ def test_idr(r_idr, dataset):
         assert new_params[key] == value
 
 
+def test_idr_similar():
+    """Test the idr function for similar inputs."""
+    data = np.random.rand(1000)
+    idrclass = base.IDR(mean=1.0, sigma=0.5, rho=0.5, prob=0.7)
+    got = idrclass.fit_predict(data, data)
+    params = idrclass.get_params()
+    expected_param = {'prob': 1.0, 'rho': 1.0, 'eps': 0.001, 'maxiter': 30}
+    assert {k: params[k] for k in expected_param} == expected_param
+    np.testing.assert_array_equal(got, 0.0)
+
+
 @pytest.mark.parametrize("dataset", ["simu.idr"])
 def test_get_correspondence(r_idr, dataset):
     """Test the get_correspondance function."""

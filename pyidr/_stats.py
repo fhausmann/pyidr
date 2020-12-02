@@ -64,13 +64,13 @@ def _d_binormal(z_1: np.ndarray, z_2: np.ndarray, mean: float, sigma: float,
         np.ndarray: Log density of bivariate Gaussian distribution
             N(mean, mean, sigma, sigma, rho).
     """
-    rho_sq = rho**2
+    rho_sq = max(1.0 - rho**2, np.finfo(np.dtype(float)).tiny)
     diff_mean_1 = z_1 - mean
     diff_mean_2 = z_2 - mean
     first_part = _NEG_LOG_TWO_MINUS_PI - 2 * np.log(sigma)
-    second_part = np.log(1 - rho_sq) / 2
+    second_part = np.log(rho_sq) / 2
     big_sum = diff_mean_1**2 - 2 * rho * diff_mean_1 * diff_mean_2 + diff_mean_2**2
-    third_part = (0.5 / (1 - rho_sq) / sigma**2) * big_sum
+    third_part = (0.5 / rho_sq / sigma**2) * big_sum
     return first_part - second_part - third_part
 
 

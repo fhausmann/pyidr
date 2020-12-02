@@ -133,7 +133,7 @@ class CorrespondenceProfile:
                     jump_point=self._jump_point)
 
     def plot_diagnostics(
-            self) -> Tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]:
+            self) -> Tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]: # pragma: no cover
         """Plot Psi and Psi' vs  the right-tail percentage given as user input.
 
         Returns:

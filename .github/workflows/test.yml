@@ -3,8 +3,43 @@ name: test
 on: [push, pull_request]
 
 jobs:
-  build:
+  statictest:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.7]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install poetry
+      run: curl -sSL "https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py" | python
+
+    - name: Set up cache
+      uses: actions/cache@v1
+      with:
+        path: .venv
+        key: venv-${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
+
+    - name: Install dependencies
+      run: |
+        export RPY2_CFFI_MODE=ABI
+        source "$HOME/.poetry/env"
+        poetry config virtualenvs.in-project true
+        poetry install
+
+
+    - name: Run checks
+      run: |
+        source "$HOME/.poetry/env"
+        poetry run prospector .
+
+  test:
+    runs-on: ubuntu-18.04
     strategy:
       matrix:
         python-version: [3.7]
@@ -36,11 +71,13 @@ jobs:
         source "$HOME/.poetry/env"
         poetry config virtualenvs.in-project true
         poetry install
+        #Fix for wrong R version.
+        poetry run pip install rpy2==3.2.0
 
 
     - name: Run checks
       run: |
         source "$HOME/.poetry/env"
-        poetry run pytest --cov-report=xml --cov-report=term --cov=pyidr
+        poetry run pytest --cov-report=xml
         poetry run poetry check
         poetry run pip check

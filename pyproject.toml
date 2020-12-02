@@ -10,19 +10,28 @@ numpy = "^1.18.1"
 scipy = "^1.4.1"
 statsmodels = "^0.11.1"
 matplotlib = "^3.2.1"
+sphinx = { version = "^3.2.1", optional = true}
+sphinx_rtd_theme = { version = "^0.5.0", optional = true}
+rstcheck = { version = "^3.3.1", optional = true}
+
+[tool.poetry.extras]
+docs = ["sphinx", "sphinx_rtd_theme", "rstcheck"]
 
 [tool.poetry.dev-dependencies]
-pytest = "^5.2"
+pytest = "^6.0"
 rpy2 = "^3.2.6"
 ipykernel = "^5.1.4"
-pydocstyle = "^5.0.2"
-mypy = "^0.770"
-pylint = "^2.4.4"
-yapf = "^0.29.0"
+yapf = "^0.30.0"
 pytest-cov = "^2.8.1"
-sphinx = "^3.0.0"
-sphinx_rtd_theme = "^0.4.3"
+prospector = {extras = ["with_mypy"], version = "^1.2.0"}
 
 [build-system]
 requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q --cov=pyidr --cov-report=term --cov-branch"
+testpaths = [
+    "tests"
+]

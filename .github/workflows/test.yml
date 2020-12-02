@@ -78,6 +78,6 @@ jobs:
     - name: Run checks
       run: |
         source "$HOME/.poetry/env"
-        poetry run pytest --cov-report=xml --cov-report=term --cov=pyidr
+        poetry run pytest --cov-report=xml
         poetry run poetry check
         poetry run pip check
